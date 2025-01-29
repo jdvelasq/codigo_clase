@@ -1,26 +1,12 @@
-def make_pipeline(estimator):
+def make_grid_search(estimator, param_grid, cv=5):
 
-    from sklearn.compose import ColumnTransformer
-    from sklearn.feature_selection import SelectKBest, f_classif
-    from sklearn.pipeline import Pipeline
-    from sklearn.preprocessing import OneHotEncoder
+    from sklearn.model_selection import GridSearchCV
 
-    transformer = ColumnTransformer(
-        transformers=[
-            ("ohe", OneHotEncoder(dtype="int"), ["thal"]),
-        ],
-        remainder="passthrough",
+    grid_search = GridSearchCV(
+        estimator=estimator,
+        param_grid=param_grid,
+        cv=cv,
+        scoring="balanced_accuracy",
     )
 
-    selectkbest = SelectKBest(score_func=f_classif)
-
-    pipeline = Pipeline(
-        steps=[
-            ("tranformer", transformer),
-            ("selectkbest", selectkbest),
-            ("estimator", estimator),
-        ],
-        verbose=False,
-    )
-
-    return pipeline
+    return grid_search
