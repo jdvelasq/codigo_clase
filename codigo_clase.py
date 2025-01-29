@@ -1,14 +1,11 @@
-def load_data():
+def make_train_test_split(x, y):
 
-    import pandas as pd
+    from sklearn.model_selection import train_test_split
 
-    dataframe = pd.read_csv(
-        "sentences.csv.zip",
-        index_col=False,
-        compression="zip",
+    (x_train, x_test, y_train, y_test) = train_test_split(
+        x,
+        y,
+        test_size=0.25,
+        random_state=123456,
     )
-
-    data = dataframe.phrase
-    target = dataframe.target
-
-    return data, target
+    return x_train, x_test, y_train, y_test
