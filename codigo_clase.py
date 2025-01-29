@@ -1,6 +1,11 @@
-def save_estimator(estimator):
+def load_estimator():
 
+    import os
     import pickle
 
-    with open("estimator.pickle", "wb") as file:
-        pickle.dump(estimator, file)
+    if not os.path.exists("estimator.pickle"):
+        return None
+    with open("estimator.pickle", "rb") as file:
+        estimator = pickle.load(file)
+
+    return estimator
