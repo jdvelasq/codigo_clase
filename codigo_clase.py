@@ -5,7 +5,7 @@ def use_estimator():
     import pandas as pd
 
     dataframe = pd.read_csv(
-        "sentences.csv.zip",
+        "../files/input/sentences.csv.zip",
         index_col=False,
         compression="zip",
     )
