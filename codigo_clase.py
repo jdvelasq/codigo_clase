@@ -1,49 +1,20 @@
-def train_mlp_regressor():
+```
 
-    from sklearn.neural_network import MLPRegressor
-    from sklearn.metrics import mean_absolute_error
+Column     Description                                             Feature Type
+---------------------------------------------------------------------------------
+Age        Age in years                                            Numerical
+Sex        (1 = male; 0 = female)                                  Categorical
+CP         Chest pain type (0, 1, 2, 3, 4)                         Categorical
+Trestbpd   Resting blood pressure (in mm Hg on admission)          Numerical  
+Chol       Serum cholesterol in mg/dl                              Numerical
+FBS        fasting blood sugar in 120 mg/dl (1 = true; 0 = false)  Categorical
+RestECG    Resting electrocardiogram results (0, 1, 2)             Categorical 
+Thalach    Maximum heart rate achieved                             Numerical
+Exang      Exercise induced angina (1 = yes; 0 = no)               Categorical
+Oldpeak    ST depression induced by exercise relative to rest      Numerical
+Slope      Slope of the peak exercise ST segment                   Numerical
+CA         Number of major vessels (0-3) colored by fluoroscopy    Categorical
+Thal       3 = normal; 6 = fixed defect; 7 = reversible defect     Categorical
+Target     Diagnosis of heart disease (1 = true; 0 = false)        Target
 
-    data, target = load_data()
-
-    x_train, x_test, y_train, y_test = make_train_test_split(
-        x=data,
-        y=target,
-    )
-
-    pipeline = make_pipeline(
-        estimator=MLPRegressor(max_iter=30000),
-    )
-
-    estimator = make_grid_search(
-        estimator=pipeline,
-        param_grid={
-            "selectkbest__k": range(1, len(x_train.columns) + 1),
-            "estimator__hidden_layer_sizes": [(n,) for n in range(1, 11)],
-            "estimator__solver": ["adam"],
-            "estimator__learning_rate_init": [0.01, 0.001, 0.0001],
-        },
-        cv=5,
-    )
-
-    estimator.fit(x_train, y_train)
-
-    best_estimator = load_estimator()
-
-    if best_estimator is not None:
-
-        saved_mae = mean_absolute_error(
-            y_true=y_test, y_pred=best_estimator.predict(x_test)
-        )
-
-        current_mae = mean_absolute_error(
-            y_true=y_test, y_pred=estimator.predict(x_test)
-        )
-
-        if saved_mae < current_mae:
-            estimator = best_estimator
-
-    save_estimator(estimator)
-
-
-train_mlp_regressor()
-check_estimator()
+```
