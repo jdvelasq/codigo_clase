@@ -1,12 +1,23 @@
-def make_grid_search(estimator, param_grid, cv=5):
+def use_estimator():
 
-    from sklearn.model_selection import GridSearchCV
+    import pickle
 
-    grid_search = GridSearchCV(
-        estimator=estimator,
-        param_grid=param_grid,
-        cv=cv,
-        scoring="balanced_accuracy",
+    import pandas as pd
+
+    dataframe = pd.read_csv(
+        "sentences.csv.zip",
+        index_col=False,
+        compression="zip",
     )
 
-    return grid_search
+    data = dataframe.phrase
+
+    with open("estimator.pickle", "rb") as file:
+        estimator = pickle.load(file)
+
+    prediction = estimator.predict(data)
+
+    return prediction
+
+
+use_estimator()
