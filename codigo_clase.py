@@ -1,17 +1,13 @@
-def load_data():
+def make_train_test_split(x, y):
 
-    import pandas as pd
+    from sklearn.model_selection import train_test_split
 
-    dataset = pd.read_csv("../files/input/heart_disease.csv")
-    y = dataset.pop("target")
-    x = dataset.copy()
-    x["thal"] = x["thal"].map(
-        lambda x: "normal" if x not in ["fixed", "fixed", "reversible"] else x
+    (x_train, x_test, y_train, y_test) = train_test_split(
+        x,
+        y,
+        test_size=0.10,
+        random_state=0,
     )
+    return x_train, x_test, y_train, y_test
 
-    return x, y
-
-
-x, y = load_data()
-x
 
