@@ -1,25 +1,6 @@
-def make_pipeline(estimator):
+def save_estimator(estimator):
 
-    from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-    from sklearn.pipeline import Pipeline
+    import pickle
 
-    vectorizer = CountVectorizer(
-        lowercase=True,
-        analyzer="word",
-        token_pattern=r"\b[a-zA-Z]\w+\b",
-        stop_words="english",
-    )
-
-    transformer = TfidfTransformer()
-
-    pipeline = Pipeline(
-        steps=[
-            ("vectorizer", vectorizer),
-            ("transformer", transformer),
-            ("estimator", estimator),
-        ],
-        verbose=False,
-    )
-
-    return pipeline
-    
+    with open("estimator.pickle", "wb") as file:
+        pickle.dump(estimator, file)
