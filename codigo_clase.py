@@ -1,14 +1,12 @@
-def load_data():
+def make_grid_search(estimator, param_grid, cv=5):
 
-    import pandas as pd
+    from sklearn.model_selection import GridSearchCV
 
-    dataframe = pd.read_csv(
-        "../files/input/sentences.csv.zip",
-        index_col=False,
-        compression="zip",
+    grid_search = GridSearchCV(
+        estimator=estimator,
+        param_grid=param_grid,
+        cv=cv,
+        scoring="balanced_accuracy",
     )
 
-    data = dataframe.phrase
-    target = dataframe.target
-
-    return data, target
+    return grid_search
