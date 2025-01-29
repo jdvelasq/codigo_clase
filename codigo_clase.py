@@ -1,11 +1,25 @@
-def make_train_test_split(x, y):
+def make_pipeline(estimator):
 
-    from sklearn.model_selection import train_test_split
+    from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+    from sklearn.pipeline import Pipeline
 
-    (x_train, x_test, y_train, y_test) = train_test_split(
-        x,
-        y,
-        test_size=0.25,
-        random_state=123456,
+    vectorizer = CountVectorizer(
+        lowercase=True,
+        analyzer="word",
+        token_pattern=r"\b[a-zA-Z]\w+\b",
+        stop_words="english",
     )
-    return x_train, x_test, y_train, y_test
+
+    transformer = TfidfTransformer()
+
+    pipeline = Pipeline(
+        steps=[
+            ("vectorizer", vectorizer),
+            ("transformer", transformer),
+            ("estimator", estimator),
+        ],
+        verbose=False,
+    )
+
+    return pipeline
+    
