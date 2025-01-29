@@ -1,13 +1,26 @@
-def make_train_test_split(x, y):
+def make_pipeline(estimator):
 
-    from sklearn.model_selection import train_test_split
+    from sklearn.compose import ColumnTransformer
+    from sklearn.feature_selection import SelectKBest, f_classif
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import OneHotEncoder
 
-    (x_train, x_test, y_train, y_test) = train_test_split(
-        x,
-        y,
-        test_size=0.10,
-        random_state=0,
+    transformer = ColumnTransformer(
+        transformers=[
+            ("ohe", OneHotEncoder(dtype="int"), ["thal"]),
+        ],
+        remainder="passthrough",
     )
-    return x_train, x_test, y_train, y_test
 
+    selectkbest = SelectKBest(score_func=f_classif)
 
+    pipeline = Pipeline(
+        steps=[
+            ("tranformer", transformer),
+            ("selectkbest", selectkbest),
+            ("estimator", estimator),
+        ],
+        verbose=False,
+    )
+
+    return pipeline
