@@ -1,24 +1,22 @@
-def train_logistic_regression():
+def eval_metrics(
+    y_train_true,
+    y_test_true,
+    y_train_pred,
+    y_test_pred,
+):
 
-    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import accuracy_score, balanced_accuracy_score
 
-    pipeline = make_pipeline(
-        estimator=LogisticRegression(max_iter=10000, solver="saga"),
+    accuracy_train = round(accuracy_score(y_train_true, y_train_pred), 4)
+    accuracy_test = round(accuracy_score(y_test_true, y_test_pred), 4)
+    balanced_accuracy_train = round(
+        balanced_accuracy_score(y_train_true, y_train_pred), 4
     )
+    balanced_accuracy_test = round(balanced_accuracy_score(y_test_true, y_test_pred), 4)
 
-    param_grid = {
-        "selectkbest__k": range(1, 11),
-        "estimator__penalty": ["l1", "l2"],
-        "estimator__C": [0.001, 0.01, 0.1, 1, 10, 100],
-    }
-
-    estimator = make_grid_search(
-        estimator=pipeline,
-        param_grid=param_grid,
-        cv=5,
+    return (
+        accuracy_train,
+        accuracy_test,
+        balanced_accuracy_train,
+        balanced_accuracy_test,
     )
-
-    train_estimator(estimator)
-
-
-train_logistic_regression()
