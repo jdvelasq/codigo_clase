@@ -1,6 +1,4 @@
-def use_estimator():
-
-    import pickle
+def load_data():
 
     import pandas as pd
 
@@ -11,13 +9,6 @@ def use_estimator():
     )
 
     data = dataframe.phrase
+    target = dataframe.target
 
-    with open("estimator.pickle", "rb") as file:
-        estimator = pickle.load(file)
-
-    prediction = estimator.predict(data)
-
-    return prediction
-
-
-use_estimator()
+    return data, target
