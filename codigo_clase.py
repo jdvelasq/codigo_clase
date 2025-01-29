@@ -1,33 +1,60 @@
-def check_estimator():
+def save_estimator(estimator):
+
+    import pickle
+
+    with open("estimator.pickle", "wb") as file:
+        pickle.dump(estimator, file)
+
+
+
+
+def train_logistic_regression():
+
+    from sklearn.linear_model import LogisticRegression
+
+    data, target = load_data()
+    x_train, x_test, y_train, y_test = make_train_test_split(
+        x=data,
+        y=target,
+    )
+    estimator = make_pipeline(estimator=LogisticRegression(max_iter=1000))
+    estimator.fit(x_train, y_train)
+    save_estimator(estimator)
+
+
+train_logistic_regression()
+
+
+
+
+def use_estimator():
 
     import pickle
 
     import pandas as pd
-    from sklearn.metrics import accuracy_score, balanced_accuracy_score
 
-    data, target = load_data()
-
-    x_train, x_test, y_train_true, y_test_true = make_train_test_split(
-        x=data,
-        y=target,
+    dataframe = pd.read_csv(
+        "../files/input/sentences.csv.zip",
+        index_col=False,
+        compression="zip",
     )
+
+    data = dataframe.phrase
 
     with open("estimator.pickle", "rb") as file:
         estimator = pickle.load(file)
 
-    y_train_pred = estimator.predict(x_train)
-    y_test_pred = estimator.predict(x_test)
+    prediction = estimator.predict(data)
 
-    accuracy_train = round(accuracy_score(y_train_true, y_train_pred), 4)
-    accuracy_test = round(accuracy_score(y_test_true, y_test_pred), 4)
-    balanced_accuracy_train = round(
-        balanced_accuracy_score(y_train_true, y_train_pred), 4
-    )
-    balanced_accuracy_test = round(balanced_accuracy_score(y_test_true, y_test_pred), 4)
-
-    print(estimator.best_estimator_, ":", sep="")
-    print(f"  Balanced Accuracy: {balanced_accuracy_test} ({balanced_accuracy_train})")
-    print(f"           Accuracy: {accuracy_test} ({accuracy_train})")
+    return prediction
 
 
-check_estimator()
+use_estimator()
+
+
+
+
+
+
+
+
