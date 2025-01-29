@@ -1,12 +1,6 @@
-def make_grid_search(estimator, param_grid, cv=5):
+def save_estimator(estimator):
 
-    from sklearn.model_selection import GridSearchCV
+    import pickle
 
-    grid_search = GridSearchCV(
-        estimator=estimator,
-        param_grid=param_grid,
-        cv=cv,
-        scoring="balanced_accuracy",
-    )
-
-    return grid_search
+    with open("estimator.pickle", "wb") as file:
+        pickle.dump(estimator, file)
