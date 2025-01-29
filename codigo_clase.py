@@ -1,16 +1,11 @@
-def load_data():
+def make_train_test_split(x, y):
 
-    import pandas as pd
+    from sklearn.model_selection import train_test_split
 
-    dataset = pd.read_csv("../files/input/auto_mpg.csv")
-    dataset = dataset.dropna()
-    dataset["Origin"] = dataset["Origin"].map(
-        {1: "USA", 2: "Europe", 3: "Japan"},
+    (x_train, x_test, y_train, y_test) = train_test_split(
+        x,
+        y,
+        test_size=0.25,
+        random_state=123456,
     )
-    y = dataset.pop("MPG")
-    x = dataset.copy()
-
-    return x, y
-
-
-
+    return x_train, x_test, y_train, y_test
